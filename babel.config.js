@@ -3,8 +3,8 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      'nativewind/babel',
-      ['import', { libraryName: '@ant-design/react-native' }],
+      '@ant-design/react-native',
+      [('import', { libraryName: 'nativewind/babel' })],
     ],
   };
 };

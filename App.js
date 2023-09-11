@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -26,9 +27,11 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={{ fontFamily: 'Orkney-Bold' }}>Test</Text>
-    </View>
+    <NavigationContainer>
+      <View style={styles.container} onLayout={onLayoutRootView}>
+        <Text style={{ fontFamily: 'Orkney-Bold' }}>Test</Text>
+      </View>
+    </NavigationContainer>
   );
 }
 
