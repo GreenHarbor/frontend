@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import RegisterScreen from './src/screens/RegisterScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -22,24 +24,16 @@ export default function App() {
     }
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+  const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <Text style={{ fontFamily: 'Orkney-Bold' }}>Test</Text>
-      </View>
-    </NavigationContainer>
+    <View onLayout={onLayoutRootView} className="w-screen h-screen">
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Register">
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Login" component={RegisterScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
