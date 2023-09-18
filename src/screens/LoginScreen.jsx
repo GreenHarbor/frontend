@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Image, Text, SafeAreaView } from 'react-native';
 import logo from '../../assets/logo.png';
 import Input from '../shared/Input';
 import Buttons from '../shared/Buttons';
 import CheckBox from 'expo-checkbox';
-import { Link } from '@react-navigation/native';
+import { Link, useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [toggleCheckBox, setToggleCheckBox] = React.useState(false);
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView className="bg-white w-screen h-screen">
@@ -68,7 +69,7 @@ const LoginScreen = () => {
         </View>
         <Buttons
           title="Sign In"
-          onPress={() => navigation.navigate('Homepage')}
+          onPress={() => navigation.navigate('FoodRescue')}
           isDark={true}
         />
         <Text className="text-sm text-[#9e9e9e] font-['Orkney'] mt-4">

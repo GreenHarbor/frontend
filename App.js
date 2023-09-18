@@ -6,6 +6,9 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import useFonts from './src/utils/hooks/useFonts';
 import LoginScreen from './src/screens/LoginScreen';
+import FoodRescueScreen from './src/screens/FoodRescueScreen';
+import WorkshopScreen from './src/screens/WorkshopScreen';
+import ProductExchangeScreen from './src/screens/ProductExchangeScreen';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -46,6 +49,12 @@ export default function App() {
             >
               <Stack.Screen name="Register" component={RegisterScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="FoodRescue" component={FoodRescueScreen} />
+              <Stack.Screen name="Workshop" component={WorkshopScreen} />
+              <Stack.Screen
+                name="ProductExchange"
+                component={ProductExchangeScreen}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaView>
