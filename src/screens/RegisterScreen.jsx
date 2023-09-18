@@ -75,8 +75,7 @@ const RegisterScreen = () => {
           title="Sign Up"
           onPress={() => navigation.navigate('FoodRescue')}
         />
-
-        <Text className="text-sm text-[#9e9e9e] font-['Orkney'] mt-4 mb-1">
+        <Text className="text-sm text-[#9e9e9e] font-['Orkney'] mt-2">
           Already have an account?
         </Text>
         <Link

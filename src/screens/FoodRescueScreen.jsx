@@ -1,9 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 const FoodRescueScreen = () => {
   return (
-    <View className="w-screen h-screen bg-white pt-16">
+    <View className="w-screen h-screen bg-white">
       <Text>Food Rescue</Text>
     </View>
   );

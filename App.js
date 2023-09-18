@@ -9,6 +9,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import FoodRescueScreen from './src/screens/FoodRescueScreen';
 import WorkshopScreen from './src/screens/WorkshopScreen';
 import ProductExchangeScreen from './src/screens/ProductExchangeScreen';
+import safeArea from './src/utils/safeArea';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -37,7 +38,10 @@ export default function App() {
   return (
     <>
       {fontsLoaded && (
-        <SafeAreaView className="w-screen h-screen">
+        <SafeAreaView
+          className="w-screen h-screen"
+          style={safeArea.AndroidSafeArea}
+        >
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Login"
