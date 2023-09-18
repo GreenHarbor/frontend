@@ -8,8 +8,10 @@ const Categories = () => {
   const [urgent, setUrgent] = useState({ x: 0, y: 0 });
   const [verified, setVerified] = useState({ x: 0, y: 0 });
   const [total, setTotal] = useState({ x: 0, y: 0 });
+  const [active, setActive] = useState(0);
 
   const translatePos = (index) => {
+    setActive(index);
     let space = (total.y - (nearby.y + news.y + urgent.y + verified.y)) / 5;
     switch (index) {
       case 0:
@@ -61,6 +63,7 @@ const Categories = () => {
             setNearby({ x: x + pageX, y: height });
           });
         }}
+        style={active !== 0 ? { color: '#92BDB7' } : {}}
         onPress={() => translatePos(0)}
       >
         Nearby
@@ -68,6 +71,7 @@ const Categories = () => {
       <Text
         className="-rotate-90 text-primary-color font-['Orkney']"
         onPress={() => translatePos(1)}
+        style={active !== 1 ? { color: '#92BDB7' } : {}}
         onLayout={(event) => {
           event.target.measure((x, y, width, height, pageX, pageY) => {
             setNews({ x: x + pageX, y: height });
@@ -78,6 +82,7 @@ const Categories = () => {
       </Text>
       <Text
         className="-rotate-90 text-primary-color font-['Orkney']"
+        style={active !== 2 ? { color: '#92BDB7' } : {}}
         onLayout={(event) => {
           event.target.measure((x, y, width, height, pageX, pageY) => {
             setUrgent({ x: x + pageX, y: height });
@@ -89,6 +94,7 @@ const Categories = () => {
       </Text>
       <Text
         className="-rotate-90 text-primary-color font-['Orkney']"
+        style={active !== 3 ? { color: '#92BDB7' } : {}}
         onLayout={(event) => {
           event.target.measure((x, y, width, height, pageX, pageY) => {
             setVerified({ x: x + pageX, y: height });
