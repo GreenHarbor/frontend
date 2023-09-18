@@ -22,7 +22,7 @@ const RegisterScreen = () => {
       />
       <View className="z-10 h-screen w-screen flex-1 flex-col items-center pt-8">
         <Text
-          className={`text-2xl text-primary-color text-center font-['Orkney']`}
+          className={`text-2xl text-primary-color text-center font-['Orkney'] mb-4`}
         >
           Create Account
         </Text>
@@ -31,6 +31,7 @@ const RegisterScreen = () => {
           secure={false}
           placeholder="Username"
           val={username}
+          icon="user"
           setInput={setUsername}
         />
         <Input
@@ -38,6 +39,7 @@ const RegisterScreen = () => {
           secure={false}
           placeholder="Email"
           val={username}
+          icon="envelope"
           setInput={setUsername}
         />
         <Input
@@ -45,6 +47,7 @@ const RegisterScreen = () => {
           secure={true}
           placeholder="Password"
           val={password}
+          icon="lock"
           setInput={setPassword}
         />
         <Input
@@ -52,10 +55,21 @@ const RegisterScreen = () => {
           secure={true}
           placeholder="Confirm Password"
           val={password}
+          icon="lock"
           setInput={setPassword}
         />
-
-        <View className="w-screen h-14" />
+        <View className="w-10/12 flex flex-row mt-2 p-2">
+          <CheckBox
+            disabled={false}
+            value={toggleCheckBox}
+            onValueChange={(newValue) => setToggleCheckBox(newValue)}
+          />
+          <Text className="text-sm text-[#9e9e9e] font-['Orkney'] ml-2">
+            I agree to the{' '}
+            <Text className="text-primary-color ">Terms and Conditions</Text>.
+          </Text>
+        </View>
+        <View className="w-screen h-4" />
         <Buttons
           title="Sign Up"
           onPress={() => navigation.navigate('Homepage')}

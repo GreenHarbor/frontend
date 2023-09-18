@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, Text } from 'react-native';
 
-const Buttons = ({ title, onPress, borderColor }) => {
+const Buttons = ({ title, onPress }) => {
   return (
     <>
       <Pressable

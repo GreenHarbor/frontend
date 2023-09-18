@@ -2,8 +2,9 @@ import React from 'react';
 import { TextInput, Pressable, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTogglePasswordVisibility } from '../utils/hooks/useTogglePasswordVisibility';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const Input = ({ type, secure, placeholder, setInput, val, width }) => {
+const Input = ({ type, secure, placeholder, setInput, val, width, icon }) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   return (
@@ -18,22 +19,23 @@ const Input = ({ type, secure, placeholder, setInput, val, width }) => {
         marginLeft: 'auto',
         marginRight: 'auto',
       }}
-      className="p-2 mt-3 bg-white rounded-full border border-white flex-row items-center justify-between"
+      className="p-2 mt-3 mx-4 bg-white rounded-full border border-white flex flex-row items-center"
     >
+      <Icon name={icon} style={{ marginLeft: 4 }} />
       <TextInput
         onChangeText={setInput}
         keyboardType={type}
         value={val}
         placeholder={placeholder}
         secureTextEntry={secure ? passwordVisibility : false}
-        className="px-4 bg-white w-11/12 font-['Orkney']"
+        className="px-4 bg-white w-10/12 font-['Orkney']"
       />
       {secure && (
         <Pressable onPress={handlePasswordVisibility}>
           <MaterialCommunityIcons
             name={rightIcon}
             size={22}
-            style={{ paddingRight: 15 }}
+            style={{ paddingLeft: 12 }}
             color="#232323"
           />
         </Pressable>
