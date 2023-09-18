@@ -7,6 +7,6 @@ export default useFonts = async () => {
     'Orkney-Medium': require('../../../assets/fonts/orkney-medium.otf'),
     Orkney: require('../../../assets/fonts/orkney-regular.otf'),
     'Perpetua-Bold': require('../../../assets/fonts/perpetua-bold.ttf'),
-    Perpetua: require('../../../assets/fonts/perpetua-regular.ttf'),
+    'Perpetua-Regular': require('../../../assets/fonts/perpetua-regular.ttf'),
   });
 };
