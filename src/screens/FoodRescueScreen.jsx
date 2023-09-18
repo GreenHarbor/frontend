@@ -1,10 +1,29 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+import Header from '../shared/Header';
+import Title from '../shared/Title';
+import Categories from '../shared/Categories';
+import Foods from '../shared/Foods';
+import FoodType from '../shared/FoodType';
 
 const FoodRescueScreen = () => {
   return (
-    <View className="w-screen h-screen bg-white">
-      <Text>Food Rescue</Text>
+    <View className="w-screen h-screen bg-white flex items-center">
+      <Header />
+      <View className="w-10/12 h-full flex">
+        <Title title="Food Rescue" />
+        <View className="w-10/12 h-[70%] flex flex-row">
+          <Categories />
+          <Foods />
+        </View>
+        <View className="w-screen h-[40%] flex flex-row">
+          <Image />
+          <FoodType />
+        </View>
+        <View className="w-screen h-[40%]">
+          <Image />
+        </View>
+      </View>
     </View>
   );
 };
