@@ -10,9 +10,9 @@ const FoodRescueScreen = () => {
   return (
     <View className="w-screen h-screen bg-white flex items-center">
       <Header />
-      <View className="w-10/12 h-full flex">
+      <View className="ml-[10%] w-full h-full flex">
         <Title title="Food Rescue" />
-        <View className="w-10/12 h-[70%] flex flex-row">
+        <View className="w-full h-[70%] flex flex-row">
           <Categories />
           <Foods />
         </View>

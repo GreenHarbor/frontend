@@ -106,7 +106,7 @@ const Categories = () => {
       </Text>
       <Animated.View
         className={`bg-tertiary-color absolute rounded-full w-1 h-1 top-0 right-0 transition ease-in-out duration-300`}
-        style={{ transform: [{ translateY: dot }, { translateX: -10 }] }}
+        style={{ transform: [{ translateY: dot }, { translateX: -20 }] }}
       ></Animated.View>
     </View>
   );
