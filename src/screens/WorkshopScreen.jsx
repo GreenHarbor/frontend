@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 const WorkshopScreen = () => {
-  return <Text>Workshop</Text>;
+  return <View className="w-screen h-screen"></View>;
 };
 
 export default WorkshopScreen;

@@ -10,6 +10,8 @@ import FoodRescueScreen from './src/screens/FoodRescueScreen';
 import WorkshopScreen from './src/screens/WorkshopScreen';
 import ProductExchangeScreen from './src/screens/ProductExchangeScreen';
 import safeArea from './src/utils/safeArea';
+import NavigationDrawer from './src/screens/NavigationScreen';
+import ChatScreen from './src/screens/ChatScreen';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -55,9 +57,14 @@ export default function App() {
               <Stack.Screen name="Login" component={LoginScreen} />
               <Stack.Screen name="FoodRescue" component={FoodRescueScreen} />
               <Stack.Screen name="Workshop" component={WorkshopScreen} />
+              <Stack.Screen name="Chat" component={ChatScreen} />
               <Stack.Screen
                 name="ProductExchange"
                 component={ProductExchangeScreen}
+              />
+              <Stack.Screen
+                name="NavigationDrawer"
+                component={NavigationDrawer}
               />
             </Stack.Navigator>
           </NavigationContainer>
