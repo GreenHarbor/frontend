@@ -1,18 +1,36 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-const Title = ({ title }) => {
+const Title = ({ title, size }) => {
   return (
     <>
       {title.split(' ').length > 1 ? (
-        <Text className="font-['Perpetua-Regular'] text-4xl text-black">
+        <Text
+          className={
+            (size === 'small'
+              ? 'text-xl font-["Orkney"]'
+              : "text-4xl font-['Perpetua-Regular']") + ' text-black'
+          }
+        >
           {title.split(' ')[0]}{' '}
-          <Text className="font-['Perpetua-Regular'] text-4xl text-primary-color">
+          <Text
+            className={
+              (size === 'small'
+                ? 'text-xl font-["Orkney"]'
+                : 'text-4xl font-["Perpetua-Regular"]') + ' text-primary-color'
+            }
+          >
             {title.split(' ')[1]}
           </Text>
         </Text>
       ) : (
-        <Text className="text-2xl font-['Perpetua-Regular'] text-primary-color">
+        <Text
+          className={
+            (size === 'small'
+              ? 'text-xl font-["Orkney"]'
+              : 'text-4xl font-["Perpetua-Regular"]') + ' text-primary-color'
+          }
+        >
           {title}
         </Text>
       )}

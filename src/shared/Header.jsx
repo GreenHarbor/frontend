@@ -5,7 +5,7 @@ import Search from '../../assets/search.png';
 
 const Header = ({ isSearch, searchFn }) => {
   return (
-    <View className="w-screen h-4">
+    <View className="w-screen h-8">
       <View className="ml-auto flex flex-row items-center mt-2">
         {isSearch && (
           <Pressable onPress={searchFn} className="ml-auto mr-4">
