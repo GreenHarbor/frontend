@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import Header from '../shared/Header';
 import Title from '../shared/Title';
 import plus from '../../assets/plus.png';
+import Swiper from 'react-native-deck-swiper';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
   {
@@ -33,6 +35,7 @@ const data = [
 
 const WorkshopScreen = () => {
   const [current, setCurrent] = useState(0);
+  const navigation = useNavigation();
 
   return (
     <View className="w-screen h-screen bg-white">
@@ -50,25 +53,38 @@ const WorkshopScreen = () => {
           </View>
         </View>
         <View className="w-full h-[70%] flex flex-row mt-4 items-center">
-          <Image
-            source={{ uri: data[current % 3].image }}
-            alt="workshop"
-            className="w-64 h-[100%] rounded-xl z-20"
-          />
-          <Image
-            source={{ uri: data[(current + 1) % 3].image }}
-            alt="workshop"
-            className="w-64 h-[80%] rounded-xl z-10 absolute right-[125px] opacity-50"
-          />
-          <Image
-            source={{ uri: data[(current + 2) % 3].image }}
-            alt="workshop"
-            className="w-64 h-[60%] rounded-xl z-10 absolute right-[100px] opacity-30"
-          />
+          <Swiper
+            cards={data}
+            renderCard={(workshop, index) => {
+              return (
+                <Image
+                  key={index}
+                  source={{ uri: workshop.image }}
+                  alt="workshop"
+                  className="w-64 h-[60%] rounded-xl z-20"
+                />
+              );
+            }}
+            onSwiped={(cardIndex) => {
+              console.log(cardIndex);
+              setCurrent(cardIndex);
+            }}
+            onSwipedAll={() => {
+              console.log('onSwipedAll');
+            }}
+            cardIndex={0}
+            stackSize={3}
+            backgroundColor={'transparent'}
+            infinite={true}
+            verticalSwipe={false}
+            showSecondCard={true}
+          ></Swiper>
         </View>
         <View className="w-full flex flex-row items-center justify-end mt-4">
           <Image source={plus} alt="plus" />
-          <Text className="mr-8 ml-2 ">Create Event</Text>
+          <Pressable onPress={() => navigation.navigate('AddEvent')}>
+            <Text className="mr-8 ml-2 ">Create Event</Text>
+          </Pressable>
         </View>
       </View>
     </View>
