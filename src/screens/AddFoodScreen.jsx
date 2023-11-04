@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Image, Pressable, View, Text } from 'react-native';
-import Title from '../shared/Title';
+import { View, Text, Button } from 'react-native';
 import Input from '../shared/Input';
 import Select from '../shared/Select';
 import Buttons from '../shared/Buttons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const sample = {
   coordinate_lat: '91.54789',
@@ -26,8 +26,21 @@ const AddFoodScreen = () => {
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
   const [foodType, setFoodType] = useState('Normal');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
+  const [dateFrom, setDateFrom] = useState(new Date());
+  const [dateTo, setDateTo] = useState(new Date());
+
+  const [mode, setMode] = useState('time');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(Platform.OS === 'ios'); // For iOS, you might want to handle the visibility with a modal
+    setDateTo(currentDate);
+  };
+
+  const showTimepicker = () => {
+    setShow(true);
+  };
 
   return (
     <View className="w-screen h-screen bg-white flex flex-col">
@@ -61,20 +74,28 @@ const AddFoodScreen = () => {
           val={location}
           setInput={setLocation}
         />
-        <Text className="ml-8 mb-0 mt-4">From</Text>
-        <Input
-          type="default"
-          placeholder="Date From"
-          val={dateFrom}
-          setInput={setDateFrom}
-        />
-        <Text className="ml-8 mb-0 mt-4">To</Text>
-        <Input
-          type="default"
-          placeholder="Date To"
-          val={dateTo}
-          setInput={setDateTo}
-        />
+        <Text className="ml-8 mb-0 mt-4">Collect By</Text>
+        <View className="w-[30%] ml-8">
+          <Buttons
+            onPress={showTimepicker}
+            title={dateTo.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: undefined, // Explicitly set seconds to undefined to exclude them
+              hour12: true, // Set to false if you want 24-hour format, true for 12-hour format
+            })}
+            color={true}
+          />
+        </View>
+        {show && (
+          <DateTimePicker
+            value={dateTo}
+            mode={mode}
+            is24Hour={true}
+            display={Platform.OS === 'android' ? 'clock' : 'default'} // Use 'clock' display on Android
+            onChange={onChange}
+          />
+        )}
         <View className="mx-auto w-1/2 flex items-center justify-center">
           <Buttons title="Add Food" />
         </View>
