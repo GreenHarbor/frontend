@@ -4,6 +4,7 @@ import Input from '../shared/Input';
 import Select from '../shared/Select';
 import Buttons from '../shared/Buttons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 
 const sample = {
   coordinate_lat: '91.54789',
@@ -21,6 +22,7 @@ const sample = {
 
 const AddFoodScreen = () => {
   const options = ['Normal', 'Vegan', 'Organic'];
+  const navigation = useNavigation();
 
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
@@ -40,6 +42,10 @@ const AddFoodScreen = () => {
 
   const showTimepicker = () => {
     setShow(true);
+  };
+
+  const submit = () => {
+    navigation.navigate('FoodRescue');
   };
 
   return (
@@ -97,7 +103,7 @@ const AddFoodScreen = () => {
           />
         )}
         <View className="mx-auto w-1/2 flex items-center justify-center">
-          <Buttons title="Add Food" />
+          <Buttons title="Add Food" onPress={submit} />
         </View>
       </View>
     </View>
