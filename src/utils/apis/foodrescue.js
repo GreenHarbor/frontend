@@ -62,7 +62,12 @@ export const deletePost = (id) => {
 
 export const getPostVerified = async () => {
   try {
-    const response = await axios.get('/food/posts/verified');
+    const response = await axios.get('/food/posts/verified', {
+      params: {
+        coordinate_lat: '1.379819',
+        coordinate_long: '103.889117',
+      },
+    });
 
     return response;
   } catch (error) {

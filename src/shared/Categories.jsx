@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Text, View } from 'react-native';
 
-const Categories = () => {
+const Categories = ({ update }) => {
   const [position, setPosition] = useState({ x: 0, y: 89 });
   const [nearby, setNearby] = useState({ x: 0, y: 0 });
   const [news, setNews] = useState({ x: 0, y: 0 });
@@ -64,13 +64,19 @@ const Categories = () => {
           });
         }}
         style={active !== 0 ? { color: '#92BDB7' } : {}}
-        onPress={() => translatePos(0)}
+        onPress={() => {
+          translatePos(0);
+          update('nearby');
+        }}
       >
         Nearby
       </Text>
       <Text
         className="-rotate-90 text-primary-color font-['Orkney']"
-        onPress={() => translatePos(1)}
+        onPress={() => {
+          translatePos(1);
+          update('new');
+        }}
         style={active !== 1 ? { color: '#92BDB7' } : {}}
         onLayout={(event) => {
           event.target.measure((x, y, width, height, pageX, pageY) => {
@@ -88,7 +94,10 @@ const Categories = () => {
             setUrgent({ x: x + pageX, y: height });
           });
         }}
-        onPress={() => translatePos(2)}
+        onPress={() => {
+          translatePos(2);
+          update('urgent');
+        }}
       >
         Urgent
       </Text>
@@ -100,7 +109,10 @@ const Categories = () => {
             setVerified({ x: x + pageX, y: height });
           });
         }}
-        onPress={() => translatePos(3)}
+        onPress={() => {
+          translatePos(3);
+          update('verified');
+        }}
       >
         Verified
       </Text>

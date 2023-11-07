@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -35,6 +35,17 @@ const LoginScreen = () => {
       setModalVisible(true);
     }
   };
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        navigation.navigate('FoodRescue');
+      }
+    };
+    checkLoggedIn();
+  }, []);
+
   return (
     <SafeAreaView className="bg-white w-screen h-screen">
       <Image
