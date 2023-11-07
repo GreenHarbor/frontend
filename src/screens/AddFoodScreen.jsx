@@ -62,7 +62,6 @@ const AddFoodScreen = () => {
     };
     try {
       const res = await createPost(data);
-      console.log(res);
       if (res.status === 201) {
         navigation.navigate('FoodRescue');
       }
