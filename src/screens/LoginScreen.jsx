@@ -12,6 +12,17 @@ const LoginScreen = () => {
   const [toggleCheckBox, setToggleCheckBox] = React.useState(false);
   const navigation = useNavigation();
 
+  const submit = async () => {
+    try {
+      var signin = await login(username, password);
+      await AsyncStorage.setItem('token', signin.data.data.access_token);
+      navigation.navigate('FoodRescue');
+    } catch (e) {
+      console.log(e);
+      setMessage(e.message);
+      setModalVisible(true);
+    }
+  };
   return (
     <SafeAreaView className="bg-white w-screen h-screen">
       <Image
@@ -67,11 +78,7 @@ const LoginScreen = () => {
           </View>
           <View className="w-screen h-14" />
         </View>
-        <Buttons
-          title="Sign In"
-          onPress={() => navigation.navigate('FoodRescue')}
-          isDark={true}
-        />
+        <Buttons title="Sign In" onPress={submit} isDark={true} />
         <Text className="text-sm text-[#9e9e9e] font-['Orkney'] mt-4">
           Don't have an account?
         </Text>
