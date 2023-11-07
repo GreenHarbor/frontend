@@ -4,7 +4,16 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTogglePasswordVisibility } from '../utils/hooks/useTogglePasswordVisibility';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const Input = ({ type, secure, placeholder, setInput, val, width, icon }) => {
+const Input = ({
+  type,
+  secure,
+  placeholder,
+  setInput,
+  val,
+  width,
+  icon,
+  lines,
+}) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   return (
@@ -28,7 +37,9 @@ const Input = ({ type, secure, placeholder, setInput, val, width, icon }) => {
         value={val}
         placeholder={placeholder}
         secureTextEntry={secure ? passwordVisibility : false}
-        className="px-4 bg-white w-10/12 font-['Orkney']"
+        className="px-4 bg-white w-10/12 font-['Orkney'] rounded-full"
+        multiline={true}
+        numberOfLines={lines ? lines : 1}
       />
       {secure && (
         <Pressable onPress={handlePasswordVisibility}>

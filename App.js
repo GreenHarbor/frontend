@@ -12,6 +12,8 @@ import ProductExchangeScreen from './src/screens/ProductExchangeScreen';
 import safeArea from './src/utils/safeArea';
 import NavigationDrawer from './src/screens/NavigationScreen';
 import ChatScreen from './src/screens/ChatScreen';
+import AddFoodScreen from './src/screens/AddFoodScreen';
+import AddEventScreen from './src/screens/AddEventScreen';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -65,6 +67,16 @@ export default function App() {
               <Stack.Screen
                 name="NavigationDrawer"
                 component={NavigationDrawer}
+              />
+              <Stack.Screen
+                name="AddFood"
+                component={AddFoodScreen}
+                options={{ headerShown: true, title: 'Add Food' }}
+              />
+              <Stack.Screen
+                name="AddEvent"
+                component={AddEventScreen}
+                options={{ headerShown: true, title: 'Add Event' }}
               />
             </Stack.Navigator>
           </NavigationContainer>

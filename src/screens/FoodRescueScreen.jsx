@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import React from 'react';
+import { Image, Pressable, View } from 'react-native';
 import Header from '../shared/Header';
 import Title from '../shared/Title';
 import Categories from '../shared/Categories';
@@ -37,11 +37,16 @@ const FoodRescueScreen = () => {
           <FoodType />
         </View>
         <View className="w-screen h-[10%] mt-4 flex flex-row items-center">
-          <View className="bg-secondary-color w-12 h-12 rounded-full flex items-center justify-center">
+          <Pressable
+            className="bg-secondary-color w-12 h-12 rounded-full flex items-center justify-center"
+            onPress={() => {
+              navigation.navigate('AddFood');
+            }}
+          >
             <View className="bg-primary-color w-10 h-10 rounded-full flex items-center justify-center">
               <Icon name="plus-a" size={18} color="#fff" />
             </View>
-          </View>
+          </Pressable>
           <View className="flex items-center justify-center mt-12 ml-4">
             <Image source={Ribbon} alt="ribbon" />
           </View>
