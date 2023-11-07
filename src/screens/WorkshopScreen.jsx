@@ -55,7 +55,6 @@ const WorkshopScreen = () => {
     const fetchData = async () => {
       try {
         const res = await getWorkshops();
-        console.log(res.data);
         setData(res.data);
       } catch (e) {
         console.log('error', e);
@@ -143,7 +142,6 @@ const WorkshopScreen = () => {
     const correctIsoString = date2.slice(0, 10) + 'T' + date2.slice(11);
 
     let date3 = new Date(correctIsoString);
-    console.log('test2', date3);
     let hours = date3.getHours();
     const minutes = date3.getMinutes();
     const ampm = hours >= 12 ? 'pm' : 'am';
@@ -181,10 +179,10 @@ const WorkshopScreen = () => {
             cards={enhancedData}
             renderCard={(workshop, index) => {
               if (!workshop) return;
-              console.log('key', workshop.Title + index);
+              console.log('key', workshop.Title + Math.random());
               return (
                 <Image
-                  key={workshop.Title + index}
+                  key={Math.random() * 10 + workshop.Title}
                   source={{ uri: workshop.image }}
                   alt="workshop"
                   className="w-64 h-[60%] rounded-xl z-20"
@@ -192,6 +190,7 @@ const WorkshopScreen = () => {
               );
             }}
             onSwiped={(cardIndex) => {
+              console.log(cardIndex);
               setCurrent(cardIndex);
             }}
             onSwipedAll={() => {

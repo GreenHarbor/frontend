@@ -80,7 +80,6 @@ const AddEventScreen = () => {
     };
     try {
       const res = await createWorkshop(data);
-      console.log(res);
       if (res.status === 201) {
         navigation.navigate('Workshop');
       }

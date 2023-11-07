@@ -57,7 +57,6 @@ const FoodRescueScreen = () => {
           return;
         }
 
-        console.log(res.data.data.posts);
         setData(res.data.data.posts);
       } catch (e) {
         console.log(e);
