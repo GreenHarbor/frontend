@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Image, Button } from 'react-native';
 import Title from './Title';
 import Clock from '../../assets/clock.png';
 import Map from '../../assets/location.png';
 import Swiper from 'react-native-deck-swiper';
+import Constants from 'expo-constants';
+import axios from 'axios';
 
 // const data = [
 //   {
@@ -45,6 +47,8 @@ import Swiper from 'react-native-deck-swiper';
 // ];
 
 const Foods = ({ data }) => {
+  const { ACCESS_KEY, SECRET_KEY } = Constants.expoConfig.extra;
+
   function timeAgo(date) {
     const now = new Date();
     const date2 = new Date(date);
@@ -78,49 +82,78 @@ const Foods = ({ data }) => {
     }
   }
 
+  const [enhancedData, setEnhancedData] = useState([]);
+
+  useEffect(() => {
+    // A function to asynchronously fetch images and enhance the data
+    const enhanceDataWithImages = async () => {
+      if (data.length === 0) return [];
+      const promises = data.map(async (item) => {
+        let cloned = { ...item };
+        if (!cloned.hasOwnProperty('title')) cloned.title = 'Food';
+        if (!cloned.hasOwnProperty('description'))
+          cloned.description = 'Description';
+        if (!cloned.hasOwnProperty('dateposted'))
+          cloned.dateposted = new Date();
+        cloned.image = 'https://source.unsplash.com/random';
+        try {
+          let response = await axios.get(
+            `https://api.unsplash.com/search/photos`,
+            {
+              params: {
+                query: cloned.title || 'pizza', // replace with the name of the food
+                client_id: ACCESS_KEY,
+              },
+            }
+          );
+          cloned.image = response.data.results[0].urls.regular;
+        } catch (error) {
+          console.error('Error fetching image:', error);
+          // Handle the error, possibly by setting a default image
+          cloned.image = 'https://source.unsplash.com/random';
+        }
+        return cloned;
+      });
+
+      const results = await Promise.all(promises);
+      setEnhancedData(results);
+    };
+
+    enhanceDataWithImages();
+  }, [data]);
+
   return (
     <View className="w-[80%] h-full mb-auto">
       <Swiper
-        cards={data}
+        cards={enhancedData}
         renderCard={(food, index) => {
-          let cloned = { ...food };
-          if (cloned && !cloned.hasOwnProperty('title')) {
-            cloned.title = 'Food';
-          }
-          if (cloned && !cloned.hasOwnProperty('description')) {
-            cloned.description = 'Description';
-          }
-          if (cloned && !cloned.hasOwnProperty('dateposted')) {
-            cloned.dateposted = new Date();
-          }
+          if (!food) return null;
           return (
             <View
               key={index}
               className="w-[60%] bg-secondary-color rounded-xl ml-12 h-[60%] pb-4"
             >
               <Image
-                source={{
-                  uri: 'https://tastesbetterfromscratch.com/wp-content/uploads/2023/06/Pepperoni-Pizza-1.jpg',
-                }}
+                source={{ uri: 'https://source.unsplash.com/random' }}
                 alt="food"
                 className="w-32 h-32 rounded-full absolute -top-8 -left-8 "
               />
               <View className="w-[80%] mt-28 mx-auto flex flex-col justify-evenly h-[70%]">
-                <Title title={cloned.title} size="small" />
+                <Title title={food.title} size="small" />
                 <Text className="text-black text-sm font-['Orkney'] mt-4">
-                  {cloned.description}
+                  {food.description}
                 </Text>
                 <View className="flex flex-col mt-auto mb-4 w-[80%]">
                   <View className="flex flex-row items-center gap-4 mt-auto">
                     <Image source={Clock} alt="clock" />
                     <Text className="text-black text-xs font-['Orkney']">
-                      {timeAgo(cloned.dateposted)}
+                      {timeAgo(food.dateposted)}
                     </Text>
                   </View>
                   <View className="flex flex-row items-center gap-4">
                     <Image source={Map} alt="map" />
                     <Text className="text-black text-xs font-['Orkney']">
-                      {cloned.location}
+                      {food.location}
                     </Text>
                   </View>
                 </View>

@@ -27,10 +27,9 @@ const FoodRescueScreen = () => {
     const fetchData = async () => {
       try {
         const res = await getPost();
-        console.log(res.data.data.posts);
         setData(res.data.data.posts);
       } catch (e) {
-        console.log(e);
+        console.log('error', e);
       }
     };
     fetchData();
@@ -54,6 +53,8 @@ const FoodRescueScreen = () => {
           res = await getPostVegan();
         } else if (category === 'normal') {
           res = await getPost();
+        } else {
+          return;
         }
 
         console.log(res.data.data.posts);
