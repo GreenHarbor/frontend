@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Modal, Pressable, StyleSheet } from 'react-native';
 import Input from '../shared/Input';
 import Buttons from '../shared/Buttons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import { createWorkshop } from '../utils/apis/workshop';
 
 const sample = {
-  name: 'Terrarium',
-  location: '81 Victoria St, Singapore 188065',
-  date: 'Sep 10th, 2023',
-  time: '10:00 pm',
-  image:
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTZlk_CTDVlbpmWc4oVHDsal2QrLGyGJs-Pw&usqp=CAU',
+  Creator_Id: '2',
+  Title: 'TEST WORKSHOP!',
+  Description: 'This is for testing',
+  Location: '123 Test Road',
+  Vacancies: 22,
+  Registration_Deadline: '2024-02-17-23:59:59.000',
+  Start_Timestamp: '2024-02-10-15:00:00.000',
 };
 
 const AddEventScreen = () => {
@@ -23,6 +25,8 @@ const AddEventScreen = () => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [message, setMessage] = React.useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -47,8 +51,44 @@ const AddEventScreen = () => {
     setShowDatePicker(false);
   };
 
-  const submit = () => {
-    navigation.navigate('Workshop');
+  function formatDateToCustomString(date) {
+    const pad = (number, length = 2) => String(number).padStart(length, '0');
+
+    let year = date.getFullYear();
+    let month = pad(date.getMonth() + 1); // getMonth() is zero-based
+    let day = pad(date.getDate());
+    let hours = pad(date.getHours());
+    let minutes = pad(date.getMinutes());
+    let seconds = pad(date.getSeconds());
+    let milliseconds = pad(date.getMilliseconds(), 3);
+
+    return `${year}-${month}-${day}-${hours}:${minutes}:${seconds}.${milliseconds}`;
+  }
+
+  const submit = async () => {
+    let reg = date;
+    reg.setHours(reg.getHours() - 3);
+
+    const data = {
+      Creator_Id: '2',
+      Title: name,
+      Description: 'This is for testing',
+      Location: location,
+      Vacancies: 22,
+      Registration_Deadline: formatDateToCustomString(reg),
+      Start_Timestamp: formatDateToCustomString(date),
+    };
+    try {
+      const res = await createWorkshop(data);
+      console.log(res);
+      if (res.status === 201) {
+        navigation.navigate('Workshop');
+      }
+    } catch (e) {
+      console.log(e);
+      setMessage(e.message);
+      setModalVisible(true);
+    }
   };
 
   return (
@@ -102,8 +142,73 @@ const AddEventScreen = () => {
           <Buttons title="Add Event" onPress={submit} />
         </View>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{message}</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Okay!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 export default AddEventScreen;
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+});
