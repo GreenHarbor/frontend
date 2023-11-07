@@ -38,7 +38,8 @@ const Input = ({
         placeholder={placeholder}
         secureTextEntry={secure ? passwordVisibility : false}
         className="px-4 bg-white w-10/12 font-['Orkney'] rounded-full"
-        multiline={true}
+        multiline={lines > 1 ? true : false}
+        returnKeyType="done"
         numberOfLines={lines ? lines : 1}
       />
       {secure && (

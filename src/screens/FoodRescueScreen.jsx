@@ -16,10 +16,12 @@ import {
   getPostVegan,
   getPostVerified,
 } from '../utils/apis/foodrescue';
+import { useNavigation } from '@react-navigation/native';
 
 const FoodRescueScreen = () => {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {

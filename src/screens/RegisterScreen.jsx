@@ -136,6 +136,7 @@ const RegisterScreen = () => {
 };
 
 export default RegisterScreen;
+
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,

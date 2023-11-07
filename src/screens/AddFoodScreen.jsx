@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Modal, Pressable, StyleSheet } from 'react-native';
 import Input from '../shared/Input';
 import Select from '../shared/Select';
 import Buttons from '../shared/Buttons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import { createPost } from '../utils/apis/foodrescue';
 
 const sample = {
   coordinate_lat: '91.54789',
@@ -30,10 +31,12 @@ const AddFoodScreen = () => {
   const [foodType, setFoodType] = useState('Normal');
   const [dateFrom, setDateFrom] = useState(new Date());
   const [dateTo, setDateTo] = useState(new Date());
+  const [message, setMessage] = React.useState('');
 
   const [mode, setMode] = useState('time');
   const [show, setShow] = useState(false);
 
+  const [modalVisible, setModalVisible] = React.useState(false);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === 'ios'); // For iOS, you might want to handle the visibility with a modal
@@ -44,8 +47,28 @@ const AddFoodScreen = () => {
     setShow(true);
   };
 
-  const submit = () => {
-    navigation.navigate('FoodRescue');
+  const submit = async () => {
+    const data = {
+      title: title,
+      description: description,
+      foodtype: foodType,
+      location: location,
+      datefrom: dateFrom,
+      dateto: dateTo,
+      coordinate_lat: '91.54789',
+      coordinate_long: '21.67890',
+      dateposted: new Date(),
+      verified: true,
+    };
+    try {
+      const res = await createPost(data);
+      console.log(res);
+      if (res.status === 201) {
+        navigation.navigate('FoodRescue');
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -106,8 +129,73 @@ const AddFoodScreen = () => {
           <Buttons title="Add Food" onPress={submit} />
         </View>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{message}</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Okay!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 export default AddFoodScreen;
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+});
