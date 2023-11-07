@@ -1,14 +1,26 @@
 import React from 'react';
-import { View, Image, Text, SafeAreaView } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  SafeAreaView,
+  Modal,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 import logo from '../../assets/logo.png';
 import Input from '../shared/Input';
 import Buttons from '../shared/Buttons';
 import CheckBox from 'expo-checkbox';
 import { Link, useNavigation } from '@react-navigation/native';
+import { login } from '../utils/apis/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [message, setMessage] = React.useState('');
   const [toggleCheckBox, setToggleCheckBox] = React.useState(false);
   const navigation = useNavigation();
 
@@ -89,8 +101,73 @@ const LoginScreen = () => {
           Register an account here!
         </Link>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{message}</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Okay!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+});

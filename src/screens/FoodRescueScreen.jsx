@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import Header from '../shared/Header';
 import Title from '../shared/Title';
@@ -7,8 +7,23 @@ import Foods from '../shared/Foods';
 import FoodType from '../shared/FoodType';
 import Icon from 'react-native-vector-icons/Fontisto';
 import Ribbon from '../../assets/ribbon.png';
+import { getPost } from '../utils/apis/foodrescue';
 
 const FoodRescueScreen = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getPost();
+        console.log(res);
+        setData(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <View className="w-screen h-screen bg-white flex items-center">
       <Header />
