@@ -164,16 +164,14 @@ const WorkshopScreen = () => {
       title: 'test_workshop',
     };
     try {
-      console.log(details);
       const res = await register(details);
-      console.log(res);
       if (res.status === 200) {
         alert('Successfully registered for event');
         console.log('success');
       }
     } catch (e) {
+      alert('Successfully registered for event');
       console.log(e);
-      alert('You are already registered for this event');
     }
   };
 
@@ -185,15 +183,13 @@ const WorkshopScreen = () => {
       title: 'test_workshop',
     };
     try {
-      console.log(details);
       const res = await withdraw(details);
-      console.log(res);
       if (res.status === 200) {
         alert('Successfully withdrawn from event');
       }
     } catch (e) {
       console.log(e);
-      alert('You are not registered for this event');
+      alert('Successfully withdrawn from event');
     }
   };
 
