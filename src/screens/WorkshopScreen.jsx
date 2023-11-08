@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import { getWorkshops } from '../utils/apis/workshop';
 import Constants from 'expo-constants';
 import axios from 'axios';
+import { register, withdraw } from '../utils/apis/registration';
+import Buttons from '../shared/Buttons';
 
 const data = [
   {
@@ -153,6 +155,48 @@ const WorkshopScreen = () => {
     return `${hours}:${minutesStr} ${ampm}`;
   }
 
+  const joinEvent = async () => {
+    const details = {
+      user_id: 'test_user',
+      creator_id: 'jieent',
+      creation_timestamp: '2023-11-07-17:40:48.025',
+      start_timestamp: '2024-02-10-15:00:00.000',
+      title: 'test_workshop',
+    };
+    try {
+      console.log(details);
+      const res = await register(details);
+      console.log(res);
+      if (res.status === 200) {
+        alert('Successfully registered for event');
+        console.log('success');
+      }
+    } catch (e) {
+      console.log(e);
+      alert('You are already registered for this event');
+    }
+  };
+
+  const withdrawEvent = async () => {
+    const details = {
+      user_id: 'test_user',
+      creator_id: 'jieent',
+      creation_timestamp: '2023-11-07-17:40:48.025',
+      title: 'test_workshop',
+    };
+    try {
+      console.log(details);
+      const res = await withdraw(details);
+      console.log(res);
+      if (res.status === 200) {
+        alert('Successfully withdrawn from event');
+      }
+    } catch (e) {
+      console.log(e);
+      alert('You are not registered for this event');
+    }
+  };
+
   return (
     <View className="w-screen h-screen bg-white">
       <Header />
@@ -179,7 +223,6 @@ const WorkshopScreen = () => {
             cards={enhancedData}
             renderCard={(workshop, index) => {
               if (!workshop) return;
-              console.log('key', workshop.Title + Math.random());
               return (
                 <Image
                   key={Math.random() * 10 + workshop.Title}
@@ -190,7 +233,6 @@ const WorkshopScreen = () => {
               );
             }}
             onSwiped={(cardIndex) => {
-              console.log(cardIndex);
               setCurrent(cardIndex);
             }}
             onSwipedAll={() => {
@@ -203,6 +245,10 @@ const WorkshopScreen = () => {
             verticalSwipe={false}
             showSecondCard={true}
           ></Swiper>
+          <View className="absolute right-0">
+            <Buttons title="Join Event" onPress={joinEvent} />
+            <Buttons title="Withdraw from Event" onPress={withdrawEvent} />
+          </View>
         </View>
         <View className="w-full flex flex-row items-center justify-end mt-4">
           <Image source={plus} alt="plus" />
